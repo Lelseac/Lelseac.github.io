@@ -15,7 +15,13 @@
   <body>
     <main>
       <header>
-        <h1>Chelsea Long is a journalist based in Berkeley, California.</h1>
+        <!-- <h1>Chelsea Long is a journalist based in Berkeley, California.</h1> -->
+        <h1>Chelsea Long is a journalist who
+          <span
+             class="txt-rotate"
+             data-period="2000"
+             data-rotate='[ "writes.", "analyzes data.", " will eventually make cool graphics."]'></span>
+        </h1>
       <nav>
         <ul> 
           <li><a href="https://github.com/Lelseac">Github</a></li>
@@ -23,7 +29,7 @@
         </ul>
       </nav>             
         <p>Chelsea Long is a master's student at UC Berkeley's Graduate School of Journalism.</p> 
-        <p>This summer, she'll join the Mississippi Center for Investigative Reporting team at Mississippi Today as a data reporting intern.</p> 
+        <p>This summer, she'll join the Investigative Reporting team at Mississippi Today as an investigative reporting intern.</p> 
         <p>She was born and raised on Florida's Space Coast and received her bachelor's degree from Florida State Univeristy.
         </p>
         <p>Here's her <a href="file:///Users/chelsealong/Desktop/Job%20Applications/Chelsea%20Long_Resume.pdf">resume</a>.</p>
@@ -79,6 +85,76 @@
           </ul>
       </section>
 
+      <section>
+        <h2>Class Projects</h2>
+        <ul>
+          <li><a href="projects/d3_bar_chart/">D3 bar chart showing seafarer deaths.</a></li>
+        </ul>
+    </section>
+
     </main>  
+
+    <script>
+
+var TxtRotate = function(el, toRotate, period) {
+  this.toRotate = toRotate;
+  this.el = el;
+  this.loopNum = 0;
+  this.period = parseInt(period, 10) || 2000;
+  this.txt = '';
+  this.tick();
+  this.isDeleting = false;
+};
+
+TxtRotate.prototype.tick = function() {
+  var i = this.loopNum % this.toRotate.length;
+  var fullTxt = this.toRotate[i];
+
+  if (this.isDeleting) {
+    this.txt = fullTxt.substring(0, this.txt.length - 1);
+  } else {
+    this.txt = fullTxt.substring(0, this.txt.length + 1);
+  }
+	
+  var colours = ["red", "green", "blue", "yellow", "orange"]
+  this.el.innerHTML = '<span class="wrap" style="color: ' + colours[i] + '">'+this.txt+'</span>';
+
+  var that = this;
+  var delta = 300 - Math.random() * 100;
+
+  if (this.isDeleting) { delta /= 2; }
+
+  if (!this.isDeleting && this.txt === fullTxt) {
+    delta = this.period;
+    this.isDeleting = true;
+  } else if (this.isDeleting && this.txt === '') {
+    this.isDeleting = false;
+    this.loopNum++;
+    delta = 500;
+  }
+
+  setTimeout(function() {
+    that.tick();
+  }, delta);
+};
+
+window.onload = function() {
+  var elements = document.getElementsByClassName('txt-rotate');
+  for (var i=0; i<elements.length; i++) {
+    var toRotate = elements[i].getAttribute('data-rotate');
+    var period = elements[i].getAttribute('data-period');
+    if (toRotate) {
+      new TxtRotate(elements[i], JSON.parse(toRotate), period);
+    }
+  }
+  // INJECT CSS
+  var css = document.createElement("style");
+  css.type = "text/css";
+  css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
+  document.body.appendChild(css);
+};
+
+
+    </script>
   </body>
 </html>

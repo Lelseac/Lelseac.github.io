@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="leaflet/leaflet.css" rel="stylesheet"> <!--- link tags don't need closing tag ---> 
+    <title>Leaflet Homework</title>
+    <style>
+        #mymap{ height: 100vh; } 
+    </style>
+  </head>
+  <body>
+
+    <div id="mymap"></div>
+
+
+    <script src="leaflet/leaflet.js"></script>
+    <script>
+
+        const map = L.map('mymap').setView([41.871941, 12.567380], 3); 
+        // starting view 
+
+        const tiles = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 150,
+	attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
+});
+
+        tiles.addTo(map);
+
+
+        const data = [
+          {title: "Philippines",	lat:14.599512, lon:120.984222},
+          {title: "India", lat:28.613939,	lon:77.209023},
+          {title: "Mexico",	lat: 19.432608,	lon:-99.133209},
+          {title: "Brazil",	lat: -15.826691, lon:-47.921822}, 
+          {title: "Mauritius", lat:-20.15789,	lon:57.505611},
+          {title: "Ukraine",	lat:50.44975,	lon:30.523718},
+          {title: "Romania",	lat:44.426765, 	lon:26.102537},
+          {title: "United Kingdom",	lat:51.507351,	lon:-0.127758},
+          {title: "Italy", lat:41.902782,	lon:12.496365},
+          {title: "Indonesia",	lat:-6.17511,	lon:106.865036},
+        ]
+        
+  if(typeof data !== "undefined"){
+    data.forEach(d => {
+        let s = "<h3>" + d.title + "</h3>";
+        if(Object.hasOwn(d, 'image'))
+            s = s + '<img src="' + d.image + ' width="150" height="auto">';
+        L.marker([d.lat, d.lon]).bindPopup("<h3>" + d.title + "</h3>").addTo(map);
+    })
+  }
+
+    </script>
+  </body>
+</html>
+
+

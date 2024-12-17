@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="leaflet/leaflet.css" rel="stylesheet"> <!--- link tags don't need closing tag ---> 
+    <title>Leaflet Homework</title>
+    <style>
+        #mymap{ height: 100vh; } 
+    </style>
+  </head>
+  <body>
+
+    <div id="mymap"></div>
+
+
+    <script src="leaflet/leaflet.js"></script>
+    <script>
+
+        const map = L.map('mymap').setView([39.011902, -98.484245], 4); 
+        // starting view 
+
+        const tiles = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
+});
+
+        tiles.addTo(map);
+
+
+        const data = [
+          {title: "Grand Turk Island", lat:21.469101, lon:-71.145828},
+          {title: "San Juan, Puerto Rico", lat:18.465540, lon:-66.105736}, 
+          {title: "Bahamas", lat:25.034281, lon:-77.396278}, 
+          {title: "Juneau, Alaska", lat:58.301945, lon:-134.419724},  
+          {title: "Georgetown, Grand Cayman", lat:19.286932, lon:-81.367439},
+          {title: "Hamilton, Bermuda", lat:32.339008, lon:-64.738419},
+          {title: "Galveston, Texas", lat:29.301348, lon:-94.797699}, 
+          {title: "Tampa, Florida", lat:27.950575, lon:-82.457176}, 
+          {title: "Miami, Florida", lat:25.761681, lon:-80.191788}, 
+          {title: "West Palm Beach, Florida", lat:26.715342, lon:-80.053375} 
+        ]
+        
+  if(typeof data !== "undefined"){
+    data.forEach(d => {
+        let s = "<h3>" + d.title + "</h3>";
+        if(Object.hasOwn(d, 'image'))
+            s = s + '<img src="' + d.image + ' width="150" height="auto">';
+        L.marker([d.lat, d.lon]).bindPopup("<h3>" + d.title + "</h3>").addTo(map);
+    })
+  }
+
+    </script>
+  </body>
+</html>
+
+
